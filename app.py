@@ -20,7 +20,9 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 token_address = "0xD1e64bcc904Cfdc19d0FABA155a9EdC69b4bcdAe"
 
 # Your Etherscan API key
-api_key = "7FS4R34MDFCNWNYZS8GNCVJSNFBIPZGJXP"
+api_key = os.getenv("API_TOKEN")
+if not api_key:
+    raise ValueError("API_TOKEN environment variable not set!")
 
 # Initial supply of the tokens
 initial_supply = 50000000000  # Assuming the initial supply was 50,000,000,000
@@ -53,4 +55,26 @@ async def burn(ctx):
         response = f"Error occurred: {str(e)}"
     await ctx.send(response)
 
+@bot.command()
+async def price(ctx):
+    try:
+        # Fetch the current token price via Etherscan API
+        url = f"https://api.etherscan.io/api?module=stats&action=tokenprice&contractaddress={token_address}&apikey={api_key}"
+        response = urllib.request.urlopen(url)
+        data = json.load(response)
+
+        print("API response:", data)  # Debug: Print the API response to see the actual structure
+
+        # Check if 'result' is in data and if 'ethPrice' is in result
+        if 'result' in data and 'ethPrice' in data['result']:
+            token_price = data['result']['ethPrice']  # Adjust this path as per the actual API response
+            formatted_price = "{:,.4f}".format(float(token_price))
+            response = f"Current Token Price: ${formatted_price} ETH"
+        else:
+            response = "Error: Unexpected API response format"
+    except Exception as e:
+        response = f"Error occurred: {str(e)}"
+    await ctx.send(response)
+
 bot.run(token)
+
