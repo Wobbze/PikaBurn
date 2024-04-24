@@ -2,11 +2,14 @@ import discord
 from discord.ext import commands
 import json
 import urllib.request
+import os
 
 # Define the necessary intents
 intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True  # Ensure this is enabled for commands to function
+
+token = os.getenv('BOT_KEY')
 
 # Create a bot instance with a command prefix and intents
 bot = commands.Bot(command_prefix='!', intents=intents)
@@ -48,4 +51,4 @@ async def burn(ctx):
         response = f"Error occurred: {str(e)}"
     await ctx.send(response)
 
-bot.run('MTIzMjczNDU4NTQ3NzkyNjk3Mw.GFU4v4.4cnF_YkBQm004VZes_xyYhFknt6SiAVDpVjQ8o')
+bot.run(token)
