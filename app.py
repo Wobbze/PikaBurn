@@ -7,7 +7,7 @@ import os
 # Define the necessary intents
 intents = discord.Intents.default()
 intents.messages = True
-intents.message_content = True  # Ensure this is enabled for commands to function
+intents.message_content = True 
 
 token = os.getenv("BOT_TOKEN")
 if not token:
@@ -25,7 +25,7 @@ if not api_key:
     raise ValueError("API_TOKEN environment variable not set!")
 
 # Initial supply of the tokens
-initial_supply = 50000000000  # Assuming the initial supply was 50,000,000,000
+initial_supply = 50000000000  #initial supply was 50,000,000,000
 
 def get_total_supply(token_address, api_key):
     url = f"https://api.etherscan.io/api?module=stats&action=tokensupply&contractaddress={token_address}&apikey={api_key}"
