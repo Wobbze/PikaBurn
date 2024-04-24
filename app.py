@@ -9,7 +9,7 @@ intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True  # Ensure this is enabled for commands to function
 
-token = os.getenv('BOT_KEY')
+token =  os.environ.get('BOT_KEY')
 
 # Create a bot instance with a command prefix and intents
 bot = commands.Bot(command_prefix='!', intents=intents)
